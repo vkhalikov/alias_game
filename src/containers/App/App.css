@@ -3,9 +3,18 @@
   flex-flow: column nowrap;
   justify-content: space-between;
   min-height: 100vh;
+  background-color: var(--color-main);
+  overflow: hidden;
 }
 
 .App .MainContainer {
   flex: 1;
+  width: 100%;
+  max-width: var(--wrapper);
+  margin: 1em auto;
+}
+
+.App .Navbar {
+  margin: 0.5rem auto;
 }
 

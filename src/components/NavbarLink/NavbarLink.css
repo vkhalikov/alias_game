@@ -1,0 +1,32 @@
+.NavbarLink {
+  position: relative;
+  padding: .2rem .5rem;
+}
+
+.NavbarLink:focus {
+}
+
+.NavbarLink-border {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 1px;
+  background-color: #50dfdb;
+  transition: width 200ms ease-in;
+}
+
+.NavbarLink.is-active .NavbarLink-border {
+  width: 100%;
+}
+
+.NavbarLink:hover .NavbarLink-border,
+.NavbarLink:focus .NavbarLink-border {
+  width: 100%;
+}
+
+.NavbarLink:focus {
+  outline: none;
+}
+
+

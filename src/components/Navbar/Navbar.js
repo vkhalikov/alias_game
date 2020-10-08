@@ -1,21 +1,34 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { open } from 'redux/action-creators/navigation-fullscreen';
 import Logo from '../Logo';
-
+import NavbarLinks from '../NavbarLinks';
+import NavigationFullscreen from '../NavigationFullscreen';
+import CollapseButton from '../ui/CollapseButton';
 import './Navbar.css';
 
-const Navbar = () => {
+
+const Navbar = ({ isNavigationFSOpen, openFullscreenNavigation }) => {
   return (
-    <nav className="Navbar teal lighten-2">
-      <div className="nav-wrapper container">
-        <Logo />
-        <ul className="right hide-on-small-and-down">
-          <li><a href="sass.html">Okay</a></li>
-          <li><a href="badges.html">Here</a></li>
-          <li><a href="collapsible.html">We GO</a></li>
-        </ul>
+    <nav className="Navbar">
+      <Logo />
+      <NavbarLinks className="Navbar-links" underline />
+
+      <div className="Navbar-collapse">
+        <CollapseButton onClick={openFullscreenNavigation} />
       </div>
+
+      { isNavigationFSOpen && <NavigationFullscreen isOpen={isNavigationFSOpen} />}
     </nav>
   );
 };
 
-export default Navbar;
+Navbar.propTypes = {
+  isNavigationFSOpen: PropTypes.bool.isRequired,
+  openFullscreenNavigation: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = ({ navigationFullscreen }) => ({ isNavigationFSOpen: navigationFullscreen.isOpen });
+
+export default connect(mapStateToProps, { openFullscreenNavigation: open })(Navbar);

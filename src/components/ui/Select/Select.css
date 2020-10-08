@@ -1,0 +1,11 @@
+.Select {
+  display: inline-block;
+}
+
+.Select-menu, .Select-button {
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+}
+
+.Select-button {
+  text-align: left;
+}

@@ -1,0 +1,17 @@
+/*.GameModeCard {*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*  align-items: center;*/
+/*  width: 250px;*/
+/*  height: 250px;*/
+/*  background: #111845a6;*/
+/*  !*background: -webkit-linear-gradient(to right, #0575E6, #00F260);*!*/
+/*  !*background: linear-gradient(to right, #0575E6, #00F260);*!*/
+/*  border: 2px solid #2a3cad;*/
+/*  border-radius: 50%;*/
+/*  box-shadow: 0px 0px 5px #2a3cad;*/
+/*}*/
+
+/*.GameModeCard:hover, .GameModeCard:active, .GameModeCard:focus {*/
+/*  cursor: pointer;*/
+/*}*/

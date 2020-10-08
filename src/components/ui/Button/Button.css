@@ -1,0 +1,44 @@
+.Button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+}
+
+.Button:focus {
+  outline: none;
+}
+
+.Button-content {
+  flex: 1 1;
+}
+
+.Button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.Button-iconRight {
+  margin-left: 7px;
+}
+
+/* Button kind styles */
+
+.Button--default {
+  padding: var(--padding-default);
+  background-color: var(--color-secondary);
+  width: var(--input-width--default);
+}
+
+.Button--default:focus {
+  outline: var(--outline--default);
+}
+
+.Button--nostyle {
+  background-color: inherit;
+  padding: 0;
+  border: 0;
+}

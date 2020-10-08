@@ -1,11 +1,17 @@
 import React from 'react';
-
+import classNames from 'classnames';
 import './FillingLayout.css';
 
-const FillingLayout = ({component}) => {
+const FillingLayout = ({component, children, centerContent }) => {
+  const className = classNames('FillingLayout',
+      {
+        'FillingLayout--contentCentered': centerContent,
+      }
+    );
+
   return (
-    <div className="FillingLayout">
-      {component}
+    <div className={className}>
+      {component || children }
     </div>
   )
 };

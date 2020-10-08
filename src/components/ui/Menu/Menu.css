@@ -1,0 +1,7 @@
+.Menu {
+  display: flex;
+  flex-flow: column nowrap;
+  background-color: var(--color-secondary);
+  max-height: 200px;
+  overflow-y: auto;
+}

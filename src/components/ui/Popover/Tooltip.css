@@ -1,0 +1,10 @@
+.Tooltip-wrapper {
+  display: inline-block;
+}
+
+.Tooltip-content {
+  max-width: 200px;
+  max-height: 50px;
+  background-color: #0D47A1;
+  border: 2px solid red;
+}

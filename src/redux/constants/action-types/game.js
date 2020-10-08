@@ -1,0 +1,31 @@
+export const STAGE = {
+  TO_PREVIOUS: 'STAGE_TO_PREVIOUS',
+  TO_NEXT: 'STAGE_TO_NEXT',
+  SET: 'STAGE_SET',
+};
+
+export const SET_SETTINGS = 'SET_SETTINGS';
+
+export const SET_TEAM_NAMES = 'SET_TEAM_NAMES';
+
+export const PACKS_SELECT = 'PACKS_SELECT';
+export const PACKS_RESET = 'PACKS_RESET';
+export const PACKS_FETCH_START = 'PACKS_FETCH_START';
+export const PACKS_FETCH_SUCCESS = 'PACKS_FETCH_SUCCESS';
+export const PACKS_FETCH_FAIL = 'PACKS_FETCH_FAIL';
+
+export const RESET_GAME = 'RESET_GAME';
+export const RESET_WORDS = 'RESET_WORDS';
+export const INITIALIZE_GAME = 'INITIALIZE_GAME';
+export const SET_PHASE = 'SET_PHASE';
+export const CORRECT_ANSWER = 'CORRECT_ANSWER';
+export const INCORRECT_ANSWER = 'INCORRECT_ANSWER';
+export const SKIP_WORD = 'SKIP_WORD';
+export const FINISH_TURN = 'FINISH_TURN';
+export const FINISH_GAME = 'FINISH_GAME';
+export const SET_TRIGGER = 'SET_TRIGGER';
+export const RESET_TRIGGER = 'RESET_TRIGGER';
+export const ADD_EVENT_LISTENER = 'ADD_EVENT_LISTENER';
+export const REMOVE_EVENT_LISTENER = 'REMOVE_EVENT_LISTENER';
+export const SAVE_TIMER = 'SET_TIMER';
+export const DELETE_TIMER = 'RESET_TIMER';

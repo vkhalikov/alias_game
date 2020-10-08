@@ -1,16 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import createStore from 'redux';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { Provider as ReduxProvider } from 'react-redux';
+import store from './redux/store';
 
 // Styles
 import 'reset-css';
-import './assets/materialize/css/materialize.css';
+import './index.css';
 
 import App from './containers/App';
 
+window._getState = store.getState;
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ReduxProvider store={store}>
+      <Router>
+        <App />
+      </Router>
+    </ReduxProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

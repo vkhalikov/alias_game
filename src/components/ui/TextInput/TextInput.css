@@ -1,0 +1,19 @@
+.TextInput {
+  min-width: var(--input-width--default);
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid white;
+  color: inherit;
+  font: inherit;
+  height: var(--input-height--default);
+  transition: all ease-in-out 150ms;
+}
+
+.TextInput--stretch {
+  width: 100%;
+}
+
+.TextInput:focus {
+  outline: none;
+  border-bottom: 2px solid var(--color-tertiary);
+}

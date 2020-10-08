@@ -1,0 +1,23 @@
+.StageLayout {
+  height: 100%;
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
+
+.StageLayout-title {
+  font-size: 2rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.StageLayout-view {
+  flex: 1;
+}
+
+.StageLayout-buttons {
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+}

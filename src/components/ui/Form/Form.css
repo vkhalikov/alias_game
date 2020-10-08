@@ -1,0 +1,10 @@
+.Form-buttonGroup {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.Form--default > .FormElement + .FormElement {
+  margin-top: 1.5rem;
+}

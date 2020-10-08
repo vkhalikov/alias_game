@@ -1,0 +1,47 @@
+.NavigationFullscreen {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  color: black;
+  background-color: whitesmoke;
+  font-size: 1.5rem;
+  width: 0;
+  overflow: hidden;
+  transition: width 200ms;
+}
+
+.NavigationFullscreen > * {
+  opacity: 0;
+}
+
+.NavigationFullscreen.is-open {
+  width: 100%;
+}
+
+.NavigationFullscreen.is-open > * {
+  opacity: 1;
+  transition: opacity 400ms 50ms;
+}
+
+.NavigationFullscreen-topPanel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+  margin: 0.5rem auto;
+}
+
+.NavigationFullscreen-links {
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 1rem auto;
+}
+
+.NavigationFullscreen-links .NavbarLink {
+  margin-top: 1rem;
+}

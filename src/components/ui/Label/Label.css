@@ -1,0 +1,20 @@
+.Label {
+
+}
+
+.withLabel {
+  display: flex;
+  align-items: center;
+}
+
+.withLabel > .Label + * {
+  margin-left: 1.5rem;
+}
+
+.withLabel > .Label {
+  min-width: 150px;
+}
+
+.withLabel--stretch {
+  justify-content: space-between;
+}

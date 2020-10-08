@@ -1,0 +1,16 @@
+.Menu-item {
+  padding: 10px 24px;
+}
+
+.Menu-item + .Menu-item {
+  border-top: 1px solid var(--color-main);
+}
+
+.Menu-item:hover, .Menu-item:focus {
+  cursor: pointer;
+  background-color: var(--color-main--transparent);
+}
+
+.Menu-item:focus {
+  outline: none;
+}
