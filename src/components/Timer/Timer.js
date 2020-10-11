@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import './Timer.css';
 
 const formatTime = (time) => {
-  const minutes = Math.floor(time / 60);
+  const roundedTime = Math.round(time);
 
-  let seconds = time % 60;
+  const minutes = Math.floor(roundedTime / 60);
+
+  let seconds = roundedTime % 60;
 
   if (seconds < 10) {
     seconds = `0${seconds}`;

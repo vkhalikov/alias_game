@@ -5,3 +5,4 @@ export const TURN = 'TURN';
 export const INTERMEDIATE_RESULTS = 'INTERMEDIATE_RESULTS';
 export const NO_WORDS_LEFT = 'NO_WORDS_LEFT';
 export const FINISHED = 'FINISHED';
+export const PAUSED = 'PAUSED';

@@ -34,29 +34,37 @@ class GameplayStage extends React.Component {
     this.loadTimer();
   }
 
+  timerId = null;
+
   loadTimer = () => {
-    this.timer = parseInt(this.props.savedTimer || this.props.settings.turnTime, 10);
+    const { savedTimer, settings } = this.props;
+
+    this.timer = (savedTimer && parseInt(savedTimer, 10)) || settings.turnTime * 1000;
   };
 
   startTimer = () => {
     this.timerId = setInterval(() => {
-      this.timer -= 1;
+      this.timer -= 100;
 
-      if (this.timer === 0) {
+      if (this.timer <= 0) {
         this.finishTurn();
       }
-    }, 1000);
+    }, 100);
+  }
+
+  stopTimer = () => {
+    clearInterval(this.timerId);
   }
 
   resetTimer = () => {
-    clearInterval(this.timerId);
-    this.timer = this.props.settings.turnTime;
-  };
+    this.stopTimer();
 
-  timerId = null;
+    this.timer = this.props.settings.turnTime * 1000;
+  };
 
   componentDidMount() {
     const { phase, currentWord, triggers, setPhase, resetWords, resetTrigger } = this.props;
+    console.log(phase);
 
     if (phase === PHASES.UNINITIALISED) {
       return this.initializeGame();
@@ -65,23 +73,25 @@ class GameplayStage extends React.Component {
     if (triggers[TRIGGERS.PACK_RESET_REQUESTED]) {
       resetWords(this.getShuffledWords());
       resetTrigger(TRIGGERS.PACK_RESET_REQUESTED);
-
-      return;
     }
 
-    if (!currentWord && phase !== PHASES.FINISHED && phase !== PHASES.NO_WORDS_LEFT) {
+    if (
+      !currentWord
+      && phase !== PHASES.FINISHED
+      && phase !== PHASES.NO_WORDS_LEFT
+      && !triggers[TRIGGERS.PACK_RESET_REQUESTED]
+    ) {
       setPhase(PHASES.NO_WORDS_LEFT);
     }
 
-    if (phase === PHASES.TURN) {
-      this.startTimer();
-    }
   }
 
   componentDidUpdate() {
     const { currentWord, phase, triggers, setPhase, setTrigger, resetTrigger } = this.props;
+    console.log(phase, 'update');
 
     if (!currentWord && phase !== PHASES.FINISHED && phase !== PHASES.NO_WORDS_LEFT) {
+      this.stopTimer();
       setPhase(PHASES.NO_WORDS_LEFT);
     }
 
@@ -93,10 +103,9 @@ class GameplayStage extends React.Component {
   }
 
   componentWillUnmount() {
-    clearInterval(this.timerId);
-
-    if (this.timer) {
-      this.props.saveTimer(this.timer);
+    console.log(this.props.phase, 'unmount');
+    if (this.props.phase === PHASES.TURN) {
+      this.pause();
     }
   }
 
@@ -123,6 +132,14 @@ class GameplayStage extends React.Component {
     setPhase(PHASES.TURN);
 
     this.startTimer();
+  };
+
+  pause = () => {
+    this.stopTimer();
+
+    this.props.saveTimer(this.timer);
+
+    this.props.setPhase(PHASES.PAUSED);
   };
 
   finishTurn = () => {
@@ -163,7 +180,7 @@ class GameplayStage extends React.Component {
 
     this.props.setTrigger(TRIGGERS.PACK_RESET_REQUESTED);
 
-    this.props.setPhase(PHASES.TURN);
+    this.pause();
   }
 
   onCorrectAnswer = () => {
@@ -193,6 +210,10 @@ class GameplayStage extends React.Component {
 
       case PHASES.FINISHED:
         return 'Результаты игры';
+
+
+      case PHASES.PAUSED:
+        return 'Пауза';
 
       default:
         return null;
@@ -231,10 +252,13 @@ class GameplayStage extends React.Component {
               onSkip={this.onSkip}
             />
 
-            <Timer value={this.timer} />
+            <Timer value={this.timer / 1000} />
             <Button text="ФиниША" onClick={this.finishTurn} />
           </>
         );
+
+      case PHASES.PAUSED:
+        return <Button text="Продолжить" onClick={this.startTurn} />;
 
       case PHASES.INTERMEDIATE_RESULTS:
         return (

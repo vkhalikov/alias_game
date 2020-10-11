@@ -8,11 +8,14 @@
   border: 2px solid #2a3cad;
   border-radius: 5px;
   padding: 20px;
-  transition: box-shadow 100ms ease-in-out;
+  transition: box-shadow 100ms ease-in-out, --card-secondary-color 100ms;
+  user-select: none;
+
+  --card-secondary-color: #485EF1;
 }
 
 .Card:hover {
-  box-shadow: 0 20px 100px rgb(72, 94, 241);
+  box-shadow: 0 20px 100px var(--card-secondary-color);
 }
 
 .Card .Card-content {
