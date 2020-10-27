@@ -1,4 +1,5 @@
 .NavigationFullscreen {
+  display: none;
   position: fixed;
   top: 0;
   right: 0;
@@ -8,22 +9,13 @@
   color: black;
   background-color: whitesmoke;
   font-size: 1.5rem;
-  width: 0;
   overflow: hidden;
-  transition: width 200ms;
-}
-
-.NavigationFullscreen > * {
-  opacity: 0;
+  transform: translateX(-100%);
+  transition: transform 100ms var(--custom-timing-function);
 }
 
 .NavigationFullscreen.is-open {
-  width: 100%;
-}
-
-.NavigationFullscreen.is-open > * {
-  opacity: 1;
-  transition: opacity 400ms 50ms;
+  transform: translateX(0);
 }
 
 .NavigationFullscreen-topPanel {
@@ -44,4 +36,10 @@
 
 .NavigationFullscreen-links .NavbarLink {
   margin-top: 1rem;
+}
+
+@media screen and (max-width: 767px)  {
+  .NavigationFullscreen {
+    display: block;
+  }
 }

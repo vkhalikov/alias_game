@@ -60,6 +60,9 @@ a {
   --z-idx--x-important: 999;
   --z-idx--important: 900;
   --z-idx--medium: 500;
+
+  /* Animations */
+  --custom-timing-function: cubic-bezier(0.465, 0.183, 0.153, 0.946);
 }
 
 /* Utilities */

@@ -64,7 +64,6 @@ class GameplayStage extends React.Component {
 
   componentDidMount() {
     const { phase, currentWord, triggers, setPhase, resetWords, resetTrigger } = this.props;
-    console.log(phase);
 
     if (phase === PHASES.UNINITIALISED) {
       return this.initializeGame();
@@ -88,7 +87,6 @@ class GameplayStage extends React.Component {
 
   componentDidUpdate() {
     const { currentWord, phase, triggers, setPhase, setTrigger, resetTrigger } = this.props;
-    console.log(phase, 'update');
 
     if (!currentWord && phase !== PHASES.FINISHED && phase !== PHASES.NO_WORDS_LEFT) {
       this.stopTimer();
@@ -103,7 +101,6 @@ class GameplayStage extends React.Component {
   }
 
   componentWillUnmount() {
-    console.log(this.props.phase, 'unmount');
     if (this.props.phase === PHASES.TURN) {
       this.pause();
     }

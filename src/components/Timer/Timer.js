@@ -17,7 +17,14 @@ const formatTime = (time) => {
 };
 
 const Timer = ({ value }) => {
+  const [initialTime, setInitialTime] = useState(value);
   const [displayTime, setDisplayTime] = useState(value);
+
+  if (value !== initialTime) {
+    setInitialTime(value);
+    setDisplayTime(value);
+  }
+
 
   useEffect(() => {
     const iid = setInterval(() => {

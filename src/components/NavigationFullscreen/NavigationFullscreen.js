@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -15,16 +15,11 @@ const NavigationFullscreen = ({ isOpen, close }) => {
       close();
     }
   }, [close]);
-  const [isAnimationRequested, setAnimationRequested] = useState(false);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setAnimationRequested(true);
-    }, 1);
-  }, []);
+
   useDocumentEventListener('keydown', closeOnEscape);
 
-  const finalClassName = classNames('NavigationFullscreen', { 'is-open': isAnimationRequested });
+  const finalClassName = classNames('NavigationFullscreen', { 'is-open': isOpen });
 
   return (
     <nav className={finalClassName}>
@@ -42,4 +37,8 @@ NavigationFullscreen.propTypes = {
   close: PropTypes.func.isRequired,
 };
 
-export default connect(null, { close })(NavigationFullscreen);
+const mapStateToProps = ({ navigationFullscreen }) => ({
+  isOpen: navigationFullscreen.isOpen,
+});
+
+export default connect(mapStateToProps, { close })(NavigationFullscreen);

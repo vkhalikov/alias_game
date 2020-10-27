@@ -9,7 +9,7 @@ import CollapseButton from '../ui/CollapseButton';
 import './Navbar.css';
 
 
-const Navbar = ({ isNavigationFSOpen, openFullscreenNavigation }) => {
+const Navbar = ({ openFullscreenNavigation }) => {
   return (
     <nav className="Navbar">
       <Logo />
@@ -19,16 +19,14 @@ const Navbar = ({ isNavigationFSOpen, openFullscreenNavigation }) => {
         <CollapseButton onClick={openFullscreenNavigation} />
       </div>
 
-      { isNavigationFSOpen && <NavigationFullscreen isOpen={isNavigationFSOpen} />}
+      <NavigationFullscreen />
     </nav>
   );
 };
 
 Navbar.propTypes = {
-  isNavigationFSOpen: PropTypes.bool.isRequired,
   openFullscreenNavigation: PropTypes.func.isRequired,
 };
 
-const mapStateToProps = ({ navigationFullscreen }) => ({ isNavigationFSOpen: navigationFullscreen.isOpen });
 
-export default connect(mapStateToProps, { openFullscreenNavigation: open })(Navbar);
+export default connect(null, { openFullscreenNavigation: open })(Navbar);
