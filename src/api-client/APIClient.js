@@ -1,101 +1,33 @@
 import Connector from './Connector';
-import { isFunction, isString, isObject } from 'lodash/lang';
-import queryString from 'query-string';
-
-export class Resource {
-  constructor(name, { methods }) {
-    this.name = name;
-
-    if (methods) {
-      this.addCustomMethods(methods);
-    }
-  }
-
-  REWRITABLE_METHODS = ['get', 'getAll', 'create', 'update', 'delete'];
-
-  setAPIClient(client) {
-    this.api = client;
-  }
-
-  addCustomMethods(methods) {
-    Object.entries(methods).forEach(([name, fn]) => {
-      if (!isFunction(fn)) {
-        throw new TypeError(`Custom method should be a function, got ${ typeof fn } instead`);
-      }
-
-      if (this[name] && !this.REWRITABLE_METHODS.includes(name)) {
-        throw new Error(`Method ${name} is not rewritable`);
-      }
-
-      this[name] = this.wrapCustomMethod(fn);
-    });
-  }
-
-  wrapCustomMethod = (fn) => (...params) => {
-    fn(this.api, ...params);
-  };
-
-  async get({ id, query }) {
-    return this.api.get(this.getPathToResource({ id, query }));
-  }
-
-  async getById(id) {
-    return this.get({ id });
-  }
-
-  async getAll({ query }) {
-    return this.api.get(this.getPathToResource({ query }));
-  }
-
-  async create(body) {
-    return this.api.post(this.getPathToResource(), { body });
-  }
-
-  async update({ id, query, body }) {
-    return this.api.patch(this.getPathToResource({ id, query }), { body });
-  }
-
-  async delete({ id, query }) {
-    return this.api.delete(this.getPathToResource({ id, query }));
-  }
-
-  getPathToResource({ id, query }) {
-    let path = this.name;
-
-    if (id) {
-      return path + `/${id}`;
-    }
-
-    return path;
-  }
-}
+import Resource from './Resource';
 
 class APIClient {
-  constructor(baseURL, { resources }) {
-    this.baseURL = baseURL;
-    this.connector = new Connector();
+  constructor(baseURL, { resources, log }) {
+    const connectorOptions = { baseURL };
+
+    if (log) {
+      connectorOptions.onRequest = logRequest;
+    }
+
+    this.connector = new Connector(connectorOptions);
 
     resources.forEach(this.injectResource);
   }
 
-  async get(path) {
-    return this.connector.get(this.getFullURL(path));
+  async get(path, { query }) {
+    return this.connector.get(path, { query });
   }
 
   async post(path, options) {
-    return this.connector.post(this.getFullURL(path), options);
+    return this.connector.post(path, options);
   }
 
   async patch(path, options) {
-    return this.connector.patch(this.getFullURL(path), options);
+    return this.connector.patch(path, options);
   }
 
   async delete(path, options) {
-    return this.connector.delete(this.getFullURL(path), options);
-  }
-
-  getFullURL(path) {
-    return this.baseURL + '/' + path;
+    return this.connector.delete(path, options);
   }
 
   injectResource = (res) => {
@@ -106,6 +38,11 @@ class APIClient {
       throw new Error('Injection failed. Resource should be an instance of Resource class');
     }
   }
+}
+
+function logRequest(url, options) {
+  console.log(`URL: ${url}`);
+  console.log(`Options: ${options}`);
 }
 
 export default APIClient;

@@ -1,66 +1,77 @@
+import queryString from 'query-string';
+import { isString, isObject } from 'lodash/lang'
 import { ConnectionError, RequestError } from './error-types';
 
+
 class Connector {
-  constructor({ onRequest }) {
+  constructor({ baseURL, onRequest }) {
+    this.baseURL = baseURL;
     this.onRequest = onRequest;
   }
 
-  async makeRequest(url, options) {
-    let json;
+  async get(url, { query }) {
+    return await this.makeRequest(url, { query });
+  }
+
+  async post(url, { body, mergeParams }) {
+    const options = this.getRequestOptions({ method: 'POST', body, mergeParams });
+
+    return await this.makeRequest(url, options);
+  }
+
+  async patch(url, { body, query, filter, mergeParams }) {
+    const options = this.getRequestOptions({ method: 'PATCH', body, query, filter, mergeParams });
+
+    return await this.makeRequest(url, options);
+  }
+
+  async delete(url, { body, query, filter, mergeParams }) {
+    const options = this.getRequestOptions({ method: 'DELETE', body, query, filter, mergeParams });
+
+    return await this.makeRequest(url, options);
+  }
+
+  async makeRequest(url, { query, ...options }) {
+    const URL = this.getFullURL(url, query);
 
     if (this.onRequest) {
-      this.onRequest(url, options);
+      this.onRequest(URL, options);
     }
 
-    try {
-      const resp = await fetch(url, options);
+    const res = await fetch(URL, options);
 
-      if (!resp.ok) {
-        throw new ConnectionError(resp.error);
+    if (!res.ok) {
+      throw new ConnectionError(res.statusText, res.statusCode);
+    }
+
+    const body = await res.json();
+
+    return { body, res };
+  }
+
+
+
+  getFullURL(path, query) {
+    let URL = this.baseURL ? `${this.baseURL}/${path}` : path;
+
+    if (query) {
+      if (isString(query)) {
+        URL += `?${query}`;
+      } else if (isObject(query)) {
+        URL += `?${queryString.stringify(query)}`;
+      } else {
+        throw new TypeError(`Query should be a String or an Object, got ${ typeof query } instead`)
       }
-
-      json = await resp.json();
-    } catch (e) {
-      this.handleConnectionError(e);
     }
 
-    return json;
+    return URL;
   }
 
-  async get(url) {
-    return await this.makeRequest(url);
-  }
-
-  async post(url, body, mergeParams) {
-    const options = this.getFetchOptions({ method: 'POST', body, mergeParams });
-
-    return await this.makeRequest(url, options);
-  }
-
-  async patch(url, body, mergeParams) {
-    const options = this.getFetchOptions({ method: 'PATCH', body, mergeParams });
-
-    return await this.makeRequest(url, options);
-  }
-
-  async delete(url, body, mergeParams) {
-    const options = this.getFetchOptions({ method: 'DELETE', body, mergeParams });
-
-    return await this.makeRequest(url, options);
-  }
-
-  getFetchOptions({ method, body, mergeParams = {} } = {}) {
-    let json;
-
-    try {
-      json = JSON.stringify(body);
-    } catch (e) {
-      throw new RequestError()
-    }
-
+  getRequestOptions({ method, body, query, filter, mergeParams = {} } = {}) {
     return {
       method,
-      body: json,
+      query,
+      body: JSON.stringify({ ...body, filter }),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -69,7 +80,7 @@ class Connector {
   }
 
   handleConnectionError(e) {
-
+    console.error(e);
   }
 }
 
